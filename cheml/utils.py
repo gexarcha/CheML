@@ -1,9 +1,21 @@
 import numpy as np 
 from sklearn.utils import check_random_state
+from numbers import Number
 
-def augment(positions, translation_intervals=[(-1,1),(-1,1),(-1,1)],
-			rotation_intervals=[(-1,1),(-1,1),(-1,1)], return_translations=False,
+def augment(positions, translation_intervals=1,
+			rotation_intervals=1, return_translations=False,
 			return_rotations=False, random_state=0):
+	
+	if isinstance(translation_intervals,Number):
+		translation_intervals=(-translation_intervals,translation_intervals)
+	if len(translation_intervals)==2:
+		translation_intervals=[translation_intervals]*3
+	
+	if isinstance(rotation_intervals,Number):
+		rotation_intervals=(-rotation_intervals,rotation_intervals)
+	if len(rotation_intervals)==2:
+		rotation_intervals=[rotation_intervals]*3
+	
 	rng=check_random_state(random_state)
 	translation_intervals=np.array(translation_intervals)
 	translations=rng.rand(positions.shape[0],positions.shape[2])
